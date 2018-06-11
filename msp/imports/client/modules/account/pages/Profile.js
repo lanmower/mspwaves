@@ -1,5 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { SnackbarContent } from 'material-ui/Snackbar';
@@ -12,8 +10,9 @@ import InputHint from '../../form/components/InputHint';
 import validate from '../../validate';
 import FormGroup from 'material-ui/Form/FormGroup';
 import FormLabel from 'material-ui/Form/FormLabel';
-import Navigation from '../../page/components/Navigation';
+import Navigation from '/imports/client/components/Navigation';
 import SaveIcon from 'material-ui-icons/Save';
+import Paper from 'material-ui/Paper';
 
 
 class Profile extends React.Component {
@@ -118,11 +117,10 @@ class Profile extends React.Component {
   }
 
   renderPasswordUser(loading, user) {
-    const {formgroupstyle, formlabelstyle, containerstyle} = Meteor;
 
-    return !loading ? (<div style={containerstyle}>
-      <FormGroup style={formgroupstyle}>
-      <FormLabel style={formlabelstyle}>First Name</FormLabel>
+    return !loading ? (<div >
+      <FormGroup>
+      <FormLabel>First Name</FormLabel>
             
             <input
               type="text"
@@ -132,8 +130,8 @@ class Profile extends React.Component {
               className="form-control"
             />
             </FormGroup>
-      <FormGroup style={formgroupstyle}>
-      <FormLabel style={formlabelstyle}>Last Name</FormLabel>
+      <FormGroup>
+      <FormLabel>Last Name</FormLabel>
             
             <input
               type="text"
@@ -143,8 +141,8 @@ class Profile extends React.Component {
               className="form-control"
             />
             </FormGroup>
-      <FormGroup style={formgroupstyle}>
-      <FormLabel style={formlabelstyle}>Email Address</FormLabel>
+      <FormGroup>
+      <FormLabel>Email Address</FormLabel>
         
         <input
           type="email"
@@ -154,8 +152,8 @@ class Profile extends React.Component {
           className="form-control"
         />
         </FormGroup>
-      <FormGroup style={formgroupstyle}>
-      <FormLabel style={formlabelstyle}>Current Password</FormLabel>
+      <FormGroup>
+      <FormLabel>Current Password</FormLabel>
         
         <input
           type="password"
@@ -164,8 +162,8 @@ class Profile extends React.Component {
           className="form-control"
         />
         </FormGroup>
-      <FormGroup style={formgroupstyle}>
-      <FormLabel style={formlabelstyle}>New Password</FormLabel>
+      <FormGroup>
+      <FormLabel>New Password</FormLabel>
         
         <input
           type="password"
@@ -175,7 +173,7 @@ class Profile extends React.Component {
         />
         </FormGroup>
         Use at least six characters.
-      <FormGroup style={formgroupstyle}>
+      <FormGroup>
       <Button fab style={{margin: 0, top: 'auto', right: 20, bottom: 20, left: 'auto', position: 'fixed'}} color="primary" aria-label="add" type="submit">
         <SaveIcon />
       </Button>
@@ -193,12 +191,12 @@ class Profile extends React.Component {
   render() {
     const { loading, user } = this.props;
     const {formgroupstyle, formlabelstyle, containerstyle} = Meteor;
-    return (<div className="Profile">
+    return (<Paper className="Profile">
         <Navigation title={"Profile"} />
-        <form  style={containerstyle} ref={form => (this.form = form)} onSubmit={event => event.preventDefault()}>
+        <form   ref={form => (this.form = form)} onSubmit={event => event.preventDefault()}>
           {this.renderProfileForm(loading, user)}
         </form>
-    </div>);
+    </Paper>);
   }
 }
 

@@ -8,13 +8,13 @@ import { Roles } from 'meteor/alanning:roles';
 //import Authenticated from './components/Authenticated/Authenticated';
 //import Public from './components/Public/Public';
 import Index from './modules/page/pages/Index';
-import NotFound from './modules/page/pages/NotFound';
+import NotFound from '/imports/client/components/NotFound';
 import Typography from 'material-ui/Typography';
-import './globalstyle';
 import 'react-select/dist/react-select.css';
 import 'react-virtualized/styles.css';
 import 'react-virtualized-select/styles.css';
 import modules from './modules';
+import CssBaseline from 'material-ui/CssBaseline';
 //import Loading from 'react-loading-animation';
 const AppRouter = props => {
   const routes = [];
@@ -29,13 +29,15 @@ const AppRouter = props => {
   var x = 0;
   return (
   !props.loading ?
+    <div>
+      <CssBaseline />
     <Router>
       <Switch>
         {routes.map((route) =><Route exact key={x++} path={route.path} component={route.component} {...props} />)}
         <Route exact path="/" component={Index} {...props} />
         <Route component={NotFound} />
       </Switch>
-    </Router> : <div>Loading...</div>
+    </Router>    </div> : <Typography type="body1" component="p">Loading</Typography>
     
 )};
 
