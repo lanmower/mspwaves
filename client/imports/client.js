@@ -48,30 +48,8 @@ const getUserName = name => ({
   object: `${name.first} ${name.last}`,
 }[typeof name]);
 
-const schedule = [];
-let index = 0;
-const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const date = new Date();
-for(let x = 0; x < 84; x++) {
-  schedule.push(  {
-    index:index++,
-    title:"Steemit Musicians"+index,
-    hosts:"@isaria, @krystle, and @swelker101",
-    image: "http://mspwaves.com/wp-content/uploads/2017/10/steemit_musicians.jpg",
-    description:"Join @isaria, @krystle, and @swelker101 on MSP Waves every Sunday night as they play the Top 5 Judge's pics from the weekly Steemit Open Mic Contest.",
-  });
-}
-for(let x = 0; x < schedule.length; x++) {
-  date.setDate(date.getDate() - date.getDay());
-  date.setHours(0);
-  date.setMinutes(date.getMinutes() - date.getTimezoneOffset() + (x * 120));
-  schedule[x].day = dayNames[date.getDay()];
-  schedule[x].hour = date.getHours();
-}
 
 const AppContainer = createContainer(() => {
-  Meteor.call()
-  Session.set("schedule", schedule);
   return {};
 }, AppRouter);
 

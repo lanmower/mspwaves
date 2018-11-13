@@ -1,1 +1,2 @@
-import '/imports/modules/serverModules';
+import '/imports';
+//console.log('restart');

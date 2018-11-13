@@ -1,3 +1,1 @@
-Meteor.startup(() => {
-    require("./client.js");
-});
+import "./schedule";

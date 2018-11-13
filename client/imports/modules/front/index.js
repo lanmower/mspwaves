@@ -9,6 +9,16 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Button from '@material-ui/core/Button';
 
+window.Schedule =  new Mongo.Collection("schedule");
+
+if(Meteor.isCordova) {
+  cordova.plugins.notification.local.schedule({
+      title: 'Design team meeting',
+      text: '3:00 - 4:00 PM',
+      trigger: { at: new Date(new Date().getTime()+10000) }
+  });
+}
+
 const styles = theme => ({
   root: {
     margin: '5px',
@@ -39,30 +49,28 @@ class ControlledExpansionPanels extends React.Component {
     });
   };
   setMedia = panel => (type) => {
-
   };
   componentDidMount() {
-    const { inputSchedule } = this.props;
+    let index = 0;
     const date = new Date();
-    date.setDate(date.getDate() - date.getDay());
+    Meteor.subscribe('schedule');
+    date.setDate(date.getDate() - date.getDay());//sunday
     date.setHours(0);
-    const time = new Date().getTime() + date.getTimezoneOffset()*60*1000;
+    const time = new Date().getTime()-date.getTime();
     const weekTime = time-date.getTime();
-    const weekTimeQuant = weekTime - (weekTime % 7200000);
-    const position = weekTimeQuant / 7200000;
-    const schedule = inputSchedule.slice(position, inputSchedule.length).concat(inputSchedule.slice(0, position));
-    const audio = schedule.shift();
-    this.setState({audioDescription:audio.description, audioImage:audio.image, schedule})
+    const schedule = Schedule.find({time : {$lt : weekTime}}).fetch();
+    const current = schedule.shift();
+    this.setState({audioDescription:current?current.description:'', audioImage:current?current.image:'', schedule})
   }
 
   render() {
     const { classes, inputSchedule, match, history } = this.props;
     const { expanded, media, schedule, audioImage, audioDescription } = this.state
 
-    const self = this
+    const self = this;
     return (
       <div className={classes.root}>
-        <img src="http://mspwaves.com/wp-content/uploads/2017/08/msp-waves2.gif" style={{maxWidth:"100%"}}/>
+        <img src="/logo.png" style={{maxWidth:"100%"}}/>
         <div>
         <div style={{display:"inline-block", maxWidth:"800px"}}>
         <img src={audioImage} style={{width: "100%",display:(media=='lq'||media=='hq')?'block':'none', marginBottom:"-5px"}}/>
@@ -107,12 +115,7 @@ class ControlledExpansionPanels extends React.Component {
 export default {
     routes: [
         {
-            path: "/", component: createContainer(({ match }) => {
-
-                return {
-                  inputSchedule:Session.get("schedule")
-                };
-            }, withStyles(styles)(ControlledExpansionPanels))
+            path: "/", component: withStyles(styles)(ControlledExpansionPanels)
         }
     ]
 };
